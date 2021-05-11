@@ -1,3 +1,5 @@
+#TODO Complete checks for all midi event types
+#TODO Add support for SMTPE Frames
 function Get-MidiTrackEvents {
     param (
         $bytes,
