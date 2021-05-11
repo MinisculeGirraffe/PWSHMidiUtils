@@ -19,7 +19,7 @@ function Get-MidiFile {
    
         $Tracks += [pscustomobject]@{
             TrackContent = [byte[]]$fileBytes[$TrackOffset..$trackLength]
-            TrackBounds  = @{
+            TrackBounds  = [pscustomobject]@{
                 start = $TrackOffset
                 end   = $TrackOffset + $trackLength + 8
             }
@@ -28,11 +28,11 @@ function Get-MidiFile {
         $TrackOffset += $trackLength + 8
     }
 
-
     foreach ($track in $tracks) {
       $track.TrackEvents = Get-MidiTrackEvents $fileBytes[$track.TrackBounds.start..$track.TrackBounds.end]  -midiheader $MidiFileHeader
-      return $track 
+     
     }
-
+   $MidiFileHeader | Add-Member -NotePropertyName 'Tracks' -NotePropertyValue $tracks
+   return $MidiFileHeader
 }
     

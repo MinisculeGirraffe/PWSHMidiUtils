@@ -1,5 +1,3 @@
-
-
 function Get-MidiTrackEvents {
     param (
         $bytes,
@@ -10,7 +8,7 @@ function Get-MidiTrackEvents {
     $midiEvents = Get-MidiEventList
     $midiArray = @()
     while ($offset -lt $bytes.Length) {
-        $varlen,$deltaTime = (Read-VarLenBytes $bytes[$offset..($offset + 3)])["length","Value"]
+        $varlen, $deltaTime = (Read-VarLenBytes $bytes[$offset..($offset + 3)])["length", "Value"]
         $offset += $varlen
         $Event = $midiEvents.Keys | Where-Object { $midiEvents[$_] -eq $bytes[($offset + 1 )] }
 
@@ -28,7 +26,6 @@ function Get-MidiTrackEvents {
             }
         }
         else {
-            Write-Host $offset
             $offsetIncrement = $bytes[($offset + 3)] + 4
             $EventSubType = $midiEvents.Keys | ? { $midiEvents[$_] -eq $bytes[($offset + 2 )] }
             $eventData = , $bytes[($offset + 4)..($offset + $offsetIncrement - 1)]
@@ -43,13 +40,11 @@ function Get-MidiTrackEvents {
             data      = $eventData
 
         }
-        Write-Host $offset, $offsetIncrement
+
         $midiArray += $obj
-        Write-Host $obj
         $offset = $offset + $offsetIncrement 
 
     }
     return $midiArray
    
 }
-Get-MidiTrackEvents -bytes $tracks[0].TrackContent -headerInfo $MidiFileHeader
