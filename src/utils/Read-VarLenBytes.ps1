@@ -18,7 +18,7 @@ function Read-VarLenBytes {
         else {
             return @{
                 value  = ($v + $b)
-                length = $i
+                length = $i  
             }
         }
     }
