@@ -1,4 +1,4 @@
-# ABOUT
+# PWSHMidiUtils
 
 PWSHMidiUtils is a PSCore Compatible module for parsing, modifying and writing MIDI files.
 
